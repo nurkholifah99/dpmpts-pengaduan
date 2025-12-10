@@ -1,12 +1,12 @@
 <?php
-
+// app/Http/Controllers/Admin/PengaduanController.php
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pengaduan;
 use Illuminate\Http\Request;
 
-class PengaduanAdminController extends Controller
+class PengaduanController extends Controller
 {
     public function index()
     {
@@ -16,7 +16,7 @@ class PengaduanAdminController extends Controller
 
     public function show(Pengaduan $pengaduan)
     {
-        return view('admin.pengaduan.show', compact('pengaduan'));
+        return view('admin.pengaduan.detail', compact('pengaduan'));
     }
 
     public function updateStatus(Request $request, Pengaduan $pengaduan)
@@ -26,19 +26,12 @@ class PengaduanAdminController extends Controller
         ]);
 
         $pengaduan->update(['status' => $request->status]);
-
         return back()->with('success', 'Status berhasil diperbarui.');
     }
 
     public function destroy(Pengaduan $pengaduan)
     {
-        if ($pengaduan->lampiran) {
-            foreach ($pengaduan->lampiran as $file) {
-                \Storage::disk('public')->delete($file);
-            }
-        }
         $pengaduan->delete();
-
         return redirect()->route('admin.pengaduan.index')
             ->with('success', 'Pengaduan berhasil dihapus.');
     }

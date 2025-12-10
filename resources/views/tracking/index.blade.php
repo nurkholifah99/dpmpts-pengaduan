@@ -1,54 +1,82 @@
 @extends('layouts.app')
 
-@section('title', 'Tracking Pengaduan')
+@section('title', 'Cek Status Pengaduan')
 
 @section('content')
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-dark">Cek Status Pengaduan</h2>
+                <p class="text-muted">Masukkan NIK, Nama, atau No. HP Anda</p>
+            </div>
 
-<h1 class="mb-4">Cek Status Pengaduan Anda</h1>
+            <!-- Form Pencarian -->
+            <form action="{{ route('tracking.index') }}" method="GET" class="mb-5">
+                <div class="input-group input-group-lg shadow-sm">
+                    <input type="text" name="search" class="form-control" 
+                           placeholder="Contoh: 3209012345678901 atau Ahmad" 
+                           value="{{ request('search') }}" required autofocus>
+                    <button class="btn bg-custom text-white px-5" type="submit">
+                        <i class="fas fa-search"></i> Cari
+                    </button>
+                </div>
+            </form>
 
-{{-- Form input Nama --}}
-<form action="{{ route('tracking.cek') }}" method="POST" class="mb-4">
-    @csrf
-    <div class="input-group" style="max-width: 450px;">
-        <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama Anda" required>
-        <button type="submit" class="btn btn-primary">Cek Status</button>
+            @if(request('search'))
+                @if($pengaduan->count() > 0)
+                    <div class="row g-4">
+                        @foreach($pengaduan as $item)
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow h-100 hover-shadow">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <h5 class="card-title mb-0">#{{ $item->id }}</h5>
+                                        <span class="badge {{ 
+                                            $item->status == 'selesai' ? 'bg-success' : 
+                                            ($item->status == 'menunggu' ? 'bg-secondary' : 
+                                            ($item->status == 'tindak_lanjut' ? 'bg-warning text-dark' : 'bg-info'))
+                                        }} fs-6">
+                                            {{ ucwords(str_replace('_', ' ', $item->status)) }}
+                                        </span>
+                                    </div>
+                                    <p class="text-muted small mb-2">
+                                        <i class="fas fa-user"></i> {{ $item->nama }}
+                                    </p>
+                                    <p class="text-muted small mb-3">
+                                        <i class="fas fa-calendar"></i> {{ $item->created_at->format('d M Y H:i') }}
+                                    </p>
+                                    <p><strong>Subjek:</strong> {{ Str::limit($item->subjek_pengaduan, 60) }}</p>
+
+                                    <div class="mt-3">
+                                        <a href="{{ route('pengaduan.status', $item->id) }}" 
+                                           class="btn btn-outline-primary btn-sm">
+                                            <i class="fas fa-eye"></i> Lihat Detail
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="text-center py-5">
+                        <i class="fas fa-search fa-4x text-muted mb-4"></i>
+                        <h5 class="text-muted">Pengaduan tidak ditemukan</h5>
+                        <p class="text-muted">Coba periksa kembali NIK, Nama, atau No. HP yang Anda masukkan.</p>
+                    </div>
+                @endif
+            @else
+                <div class="text-center py-5">
+                    <i class="fas fa-file-alt fa-5x text-primary mb-4"></i>
+                    <h4 class="text-muted">Silakan masukkan NIK atau Nama untuk melacak pengaduan Anda</h4>
+                </div>
+            @endif
+        </div>
     </div>
-</form>
-
-{{-- Jika pengaduan ditemukan --}}
-@if(session('status'))
-<div class="card shadow-sm p-4 mb-4" style="max-width: 700px;">
-    <h5 class="mb-3 text-primary">🔎 Hasil Status Pengaduan</h5>
-
-    <p><strong>Nama:</strong> {{ session('status')->nama }}</p>
-    <p><strong>Telepon:</strong> {{ session('status')->telepon }}</p>
-    <p><strong>Isi Pengaduan:</strong> {{ session('status')->isi_pengaduan }}</p>
-
-    <p><strong>Status:</strong>
-        @if(session('status')->status == 'menunggu')
-            <span class="badge bg-warning text-dark">Menunggu</span>
-        @elseif(session('status')->status == 'diproses')
-            <span class="badge bg-primary">Diproses</span>
-        @elseif(session('status')->status == 'selesai')
-            <span class="badge bg-success">Selesai</span>
-        @elseif(session('status')->status == 'ditolak')
-            <span class="badge bg-danger">Ditolak</span>
-        @endif
-    </p>
-
-    @if(session('status')->catatan_rekomendasi)
-        <p><strong>Catatan Rekomendasi:</strong> {{ session('status')->catatan_rekomendasi }}</p>
-    @endif
-
-    <p><strong>Tanggal Pengajuan:</strong> {{ session('status')->created_at->format('d M Y H:i') }}</p>
 </div>
-@endif
 
-{{-- Jika tidak ditemukan --}}
-@if(session('error'))
-<div class="alert alert-danger" style="max-width: 450px;">
-    {{ session('error') }}
-</div>
-@endif
-
+<style>
+.hover-shadow:hover { transform: translateY(-5px); transition: all 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.1)!important; }
+</style>
 @endsection

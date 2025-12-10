@@ -2,34 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Pengaduan;
+use Illuminate\Http\Request;
 
 class MasyarakatController extends Controller
 {
-    // Halaman form tracking
-   public function index()
-{
-    return view('tracking.index');
-}
+    public function index(Request $request)
+    {
+        $pengaduan = collect();
+        $search = $request->query('search');
 
-public function cekStatus(Request $request)
-{
-    $request->validate([
-        'nama' => 'required'
-    ]);
+        if ($search) {
+            $pengaduan = Pengaduan::where('nik', $search)
+                ->orWhere('nama', 'like', '%' . $search . '%')
+                ->orWhere('no_hp', 'like', '%' . $search . '%')
+                ->latest()
+                ->get();
+        }
 
-    $data = Pengaduan::where('nama', 'LIKE', '%' . $request->nama . '%')
-        ->latest()
-        ->first();
-
-    if (!$data) {
-        return back()->with('error', 'Pengaduan tidak ditemukan');
+        return view('tracking.index', compact('pengaduan', 'search'));
     }
-
-    return back()->with('status', $data);
-}
-
-
-    
 }

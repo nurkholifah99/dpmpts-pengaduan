@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('isi_pengaduan');
             $table->json('lampiran')->nullable(); // array path file
             $table->enum('status', ['menunggu','verifikasi','rekomendasi','tindak_lanjut','selesai'])
-                  ->default('menunggu');
+                ->default('menunggu');
             $table->timestamps();
         });
     }

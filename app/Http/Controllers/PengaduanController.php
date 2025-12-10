@@ -17,12 +17,12 @@ class PengaduanController extends Controller
     {
         $request->validate([
             'nama'             => 'required|string|max:255',
-            'nik'              => 'required|digits:16|unique:pengaduan,nik',
+            'nik'              => 'required|digits:16',
             'email'            => 'required|email',
             'no_hp'            => 'required|numeric',
-            'alamat'           => 'required',
+            'alamat'           => 'required|string',
             'subjek_pengaduan' => 'required|string|max:255',
-            'isi_pengaduan'    => 'required',
+            'isi_pengaduan'    => 'required|string',
             'lampiran.*'       => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5120'
         ]);
 
@@ -47,12 +47,12 @@ class PengaduanController extends Controller
         ]);
 
         return redirect()->route('pengaduan.create')
-                         ->with('success', "Pengaduan berhasil dikirim! Nomor: #{$pengaduan->id}");
+            ->with('success', "Pengaduan berhasil dikirim! Nomor Pengaduan: #{$pengaduan->id}");
     }
 
     public function status($id)
     {
-        $data = Pengaduan::findOrFail($id);
-        return view('pengaduan.status', compact('data'));
+        $pengaduan = Pengaduan::findOrFail($id);
+        return view('pengaduan.status', compact('pengaduan'));
     }
 }
