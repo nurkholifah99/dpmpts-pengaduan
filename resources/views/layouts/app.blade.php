@@ -91,7 +91,6 @@
                             href="{{ route('pengaduan.create') }}">Buat Pengaduan</a></li>
                     <li class="nav-item"><a class="nav-link {{ request()->is('tracking*') ? 'active' : '' }}"
                             href="{{ route('tracking.index') }}">Cek Status</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard') }}">Admin</a></li>
                 </ul>
             </div>
         </div>

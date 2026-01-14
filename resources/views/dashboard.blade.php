@@ -20,75 +20,59 @@
     </div>
 </div> -->
 
-<!-- PAPAN INFORMASI SLIDER – UKURAN & TAMPILAN 100% PAS -->
+<!-- PAPAN INFORMASI SLIDER – OTOMATIS SETIAP 3 DETIK -->
 <div class="container my-2">
     <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-        <div id="infoSlider" class="carousel slide" data-bs-ride="carousel" data-bs-interval="6000">
+        <div id="infoSlider" class="carousel slide" 
+             data-bs-ride="carousel" 
+             data-bs-interval="3000" 
+             data-bs-pause="false"> <!-- opsional: tetap jalan meski di-hover -->
 
-            <!-- Titik di bawah -->
+            <!-- Indicator dots -->
             <div class="carousel-indicators mb-0">
-                <button type="button" data-bs-target="#infoSlider" data-bs-slide-to="0" class="active"></button>
+                <button type="button" data-bs-target="#infoSlider" data-bs-slide-to="0" class="active" aria-current="true"></button>
                 <button type="button" data-bs-target="#infoSlider" data-bs-slide-to="1"></button>
                 <button type="button" data-bs-target="#infoSlider" data-bs-slide-to="2"></button>
-                <button type="button" data-bs-target="#infoSlider" data-bs-slide-to="3"></button>
             </div>
 
             <div class="carousel-inner">
-                <!-- Slide 1 – Tugas Pokok (gambar biru) -->
+                <!-- Slide 1 -->
                 <div class="carousel-item active">
-                    <img src="/images/tupoksianjay.png" class="d-block w-100" alt="Tugas Pokok"
-                        style="height: 480px; object-fit: cover;">
-                    <div class="position-absolute bottom-0 start-0 mb-4 ms-4 d-none d-md-block">
-                    </div>
+                    <img src="/images/tupoksianjay.png" class="d-block w-100" alt="Tugas Pokok" style="height: 480px; object-fit: cover;">
                 </div>
 
-                <!-- Slide 3 -->
+                <!-- Slide 2 -->
                 <div class="carousel-item">
-                    <img src="/images/visimisi.png" class="d-block w-100" alt="Pengaduan"
-                        style="height: 480px; object-fit: cover;">
-                    <div class="position-absolute bottom-0 start-0 mb-4 ms-4 d-none d-md-block">
-                    </div>
+                    <img src="/images/visimisi.png" class="d-block w-100" alt="Visi Misi" style="height: 480px; object-fit: cover;">
                 </div>
 
-                <!-- Slide 2: VIDEO YOUTUBE – KLIK LANGSUNG BUKA VIDEO -->
+                <!-- Slide 3: Video YouTube -->
                 <div class="carousel-item">
                     <a href="https://youtu.be/nQ2uN8J_QIs" target="_blank">
                         <div class="position-relative">
-                            <!-- Thumbnail video (1080×460 px) -->
-                            <img src="/images/image.png" class="d-block w-100" alt="Video DPMPTSP Cirebon"
-                                style="height: 460px; object-fit: cover;">
-
-                            <!-- Icon Play merah besar di tengah -->
+                            <img src="/images/image.png" class="d-block w-100" alt="Video DPMPTSP" style="height: 480px; object-fit: cover;">
                             <div class="position-absolute top-50 start-50 translate-middle">
                                 <div class="bg-danger rounded-circle p-4 shadow-lg">
                                     <i class="fas fa-play fa-4x text-white"></i>
                                 </div>
                             </div>
-
-                            <!-- Judul video di pojok kiri bawah (opsional, kalau mau) -->
-                            <div class="position-absolute bottom-0 start-0 mb-4 ms-4 d-none d-md-block">
-                                <div class="bg-black bg-opacity-75 text-white p-3 rounded-3">
-                                    <small class="fw-bold">Video Resmi DPMPTSP Kab. Cirebon</small>
-                                </div>
-                            </div>
                         </div>
                     </a>
                 </div>
-
-
             </div>
 
-            <!-- Panah -->
+            <!-- Panah kiri kanan -->
             <button class="carousel-control-prev" type="button" data-bs-target="#infoSlider" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
             </button>
             <button class="carousel-control-next" type="button" data-bs-target="#infoSlider" data-bs-slide="next">
-                <span class="carousel-control-next-icon"></span>
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
             </button>
         </div>
     </div>
 </div>
-
 <!-- JENIS LAYANAN -->
 <div class="container mb-5">
     <h2 class="mb-5 text-center fw-bold">Layanan Perizinan & Pengaduan</h2>
@@ -97,7 +81,7 @@
         <!-- Perizinan Online -->
         <div class="col-md-4 col-11">
             <a href="https://digiprom.cirebonkab.go.id/" class="text-decoration-none">
-                <div class="card h-100 shadow-sm border-0 overflow-hidden"
+                <div class="card h-100 shadow-sm border-0 overflow-hidden hover-shadow"
                     style="border-radius: 18px; min-height: 180px;">
                     <div class="row g-0 h-100">
                         <div class="col-5">
@@ -115,7 +99,7 @@
         <!-- OSS -->
         <div class="col-md-4 col-11">
             <a href="https://oss.go.id/id" class="text-decoration-none">
-                <div class="card h-100 shadow-sm border-0 overflow-hidden"
+                <div class="card h-100 shadow-sm border-0 overflow-hidden hover-shadow"
                     style="border-radius: 18px; min-height: 180px;">
                     <div class="row g-0 h-100">
                         <div class="col-5">
@@ -133,7 +117,7 @@
         <!-- Pengaduan Masyarakat -->
         <div class="col-md-4 col-11">
             <a href="{{ route('pengaduan.create') }}" class="text-decoration-none">
-                <div class="card h-100 shadow-sm border-0 overflow-hidden"
+                <div class="card h-100 shadow-sm border-0 overflow-hidden hover-shadow"
                     style="border-radius: 18px; min-height: 180px;">
                     <div class="row g-0 h-100">
                         <div class="col-5">
